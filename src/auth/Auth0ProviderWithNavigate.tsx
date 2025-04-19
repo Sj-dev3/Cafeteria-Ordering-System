@@ -12,12 +12,10 @@ const Auth0ProviderWithNavigate = ({ children }: props) => {
     const redirectUri = import.meta.env.VITE_AUTH0_CALLBACK_URL;
     const audience = import.meta.env.VITE_AUTH0_AUDIENCE; // You are reading this
 
-    // Add audience to the check
     if (!domain || !clientID || !redirectUri || !audience) {
         throw new Error("Unable to initialize auth: Missing environment variables")
     }
 
-    // The AppState type can be used if you pass state during loginWithRedirect
     const onRedirectCallback = (appState?: AppState)=> {
         console.log("Auth0 Redirect Callback triggered. AppState:", appState);
         // Navigate to the dedicated callback route where user creation/sync logic resides
@@ -33,8 +31,7 @@ const Auth0ProviderWithNavigate = ({ children }: props) => {
                 audience: audience, // Pass the audience here
             }}
             onRedirectCallback={onRedirectCallback}
-            // Consider adding cacheLocation="localstorage" for better persistence
-            // cacheLocation="localstorage"
+
         >
             {children}
         </Auth0Provider>

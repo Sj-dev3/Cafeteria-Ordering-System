@@ -1,22 +1,21 @@
-import React from 'react'
-import Header from '@/components/Header'
-import Hero from '@/components/Hero';
-import Footer from '@/components/Footer';
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import Hero from "@/components/Hero";
 
-const Layout = ({ children, showHero = false }: props) => {
+type Props = {
+  children: React.ReactNode;
+  showHero?: boolean;
+};
+
+const Layout = ({ children, showHero = false }: Props) => {
   return (
     <div className="flex flex-col min-h-screen">
-        <Header /> 
-        {showHero && <Hero />} {/* Render Hero only if showHero is true */}
-        <div className="container mx-auto flex-1 py-10">{children}</div>
-        <Footer />
+      <Header />
+      {showHero && <Hero />}
+      <div className="container mx-auto flex-1 py-10">{children}</div>
+      <Footer />
     </div>
-  )
-}
-
-type props = {
-    children: React.ReactNode;
-    showHero?: boolean;
+  );
 };
 
 export default Layout;
