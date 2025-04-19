@@ -13,8 +13,6 @@ import {
 import { ORDER_STATUS } from "@/config/order-status-config";
 import { useUpdateMyRestaurantOrder } from "@/api/MyRestaurantApi";
 import { useEffect, useState } from "react";
-import { calculateExpectedOrderTotal, formatPrice } from "@/lib/utils"; // Import helpers
-
 
 type Props = {
   order: Order;
