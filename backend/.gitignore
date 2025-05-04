@@ -1,0 +1,27 @@
+# filepath: c:\Users\asisd\Desktop\362Project\backend\.gitignore
+# Environment variables
+.env
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Logs & Editor Files (Optional but recommended)
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
