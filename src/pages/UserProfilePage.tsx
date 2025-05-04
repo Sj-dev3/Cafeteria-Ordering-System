@@ -12,5 +12,14 @@ export default function UserProfilePage() {
     if (!currentUser) {
         return <span>User not found</span>;
     }
-    return <UserProfileForm currentUser = {currentUser} onSave={updateUser} isLoading={isUpdateLoading}/>
+    return <UserProfileForm 
+        currentUser={currentUser} 
+        onSave={(userProfileData) => updateUser({
+            ...userProfileData,
+            addressLine1: userProfileData.addressLine1 || "",
+            city: userProfileData.city || "",
+            country: userProfileData.country || ""
+        })} 
+        isLoading={isUpdateLoading}
+    />
 }
