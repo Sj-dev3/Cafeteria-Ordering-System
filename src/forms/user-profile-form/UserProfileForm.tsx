@@ -16,18 +16,13 @@ import { Button } from "@/components/ui/button";
 import { User } from "@/types";
 import { useEffect } from "react";
 
-// Adjust validation schema based on orderType
+// Schema remains the same
 const formSchema = z.object({
   email: z.string().optional(),
   name: z.string().min(1, "Name is required"),
-  addressLine1: z.string().optional(), // Make optional initially
-  city: z.string().optional(),         // Make optional initially
-  country: z.string().optional(),       // Make optional initially
-}).superRefine(() => {
-  // This refinement depends on knowing the orderType, which isn't directly
-  // available here. We'll handle required fields conditionally in the UI.
-  // A more robust solution might involve passing orderType to the form
-  // and adjusting the schema dynamically, but that's more complex.
+  addressLine1: z.string().optional(),
+  city: z.string().optional(),
+  country: z.string().optional(),
 });
 
 export type UserFormData = z.infer<typeof formSchema>;
@@ -38,7 +33,7 @@ type Props = {
   isLoading: boolean;
   title?: string;
   buttonText?: string;
-  orderType?: "delivery" | "pickup"; // Receive orderType
+  orderType?: "delivery" | "pickup";
 };
 
 const UserProfileForm = ({
@@ -47,7 +42,7 @@ const UserProfileForm = ({
   currentUser,
   title = "User Profile",
   buttonText = "Submit",
-  orderType, // Destructure orderType
+  orderType,
 }: Props) => {
   const form = useForm<UserFormData>({
     resolver: zodResolver(formSchema),
@@ -58,8 +53,9 @@ const UserProfileForm = ({
     form.reset(currentUser);
   }, [currentUser, form]);
 
-  // Determine if address fields are required based on orderType
-  const isDelivery = orderType === "delivery";
+  // Determine if address fields should be shown
+  // Show if orderType is 'delivery' OR if orderType is not provided (i.e., on the profile page)
+  const showAddressFields = orderType === "delivery" || orderType === undefined;
 
   return (
     <Form {...form}>
@@ -73,6 +69,7 @@ const UserProfileForm = ({
             View and change your profile information here
           </FormDescription>
         </div>
+        {/* Email and Name fields remain the same */}
         <FormField
           control={form.control}
           name="email"
@@ -85,7 +82,6 @@ const UserProfileForm = ({
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
           name="name"
@@ -100,8 +96,8 @@ const UserProfileForm = ({
           )}
         />
 
-        {/* Conditionally render Address Fields only if orderType is 'delivery' */}
-        {isDelivery && (
+        {/* Conditionally render Address Fields based on the updated logic */}
+        {showAddressFields && (
           <div className="flex flex-col md:flex-row gap-4">
             <FormField
               control={form.control}
@@ -144,6 +140,8 @@ const UserProfileForm = ({
             />
           </div>
         )}
+
+        {/* Submit button remains the same */}
         {isLoading ? (
           <LoadingButton />
         ) : (
