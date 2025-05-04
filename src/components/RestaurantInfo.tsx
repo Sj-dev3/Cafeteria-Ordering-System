@@ -7,7 +7,6 @@ import {
   CardTitle,
 } from "./ui/card";
 import { Dot } from "lucide-react";
-
 type Props = {
   restaurant: Restaurant;
 };

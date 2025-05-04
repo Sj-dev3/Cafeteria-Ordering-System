@@ -13,6 +13,7 @@ import { useCreateCheckoutSession } from "@/api/OrderApi";
 // Import RadioGroup components and Label
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import ReviewForm from "@/components/ReviewForm";
 
 export type CartItem = {
   _id: string;
@@ -91,17 +92,19 @@ const DetailPage = () => {
     }
 
     // Ensure address is included only if delivery is selected
-    const deliveryDetailsToSend = orderType === 'delivery' ? {
-        name: userFormData.name,
-        addressLine1: userFormData.addressLine1,
-        city: userFormData.city,
-        country: userFormData.country,
-        email: userFormData.email as string,
-    } : {
-        name: userFormData.name, // Still need name/email for pickup
-        email: userFormData.email as string,
-    };
-
+    const deliveryDetailsToSend =
+      orderType === "delivery"
+        ? {
+            name: userFormData.name,
+            addressLine1: userFormData.addressLine1,
+            city: userFormData.city,
+            country: userFormData.country,
+            email: userFormData.email as string,
+          }
+        : {
+            name: userFormData.name, // Still need name/email for pickup
+            email: userFormData.email as string,
+          };
 
     const checkoutData = {
       cartItems: cartItems.map((cartItem) => ({
@@ -152,24 +155,33 @@ const DetailPage = () => {
             />
             {/* Add Radio Group UI here, inside CardContent */}
             <CardContent>
-              <div className="mt-4"> {/* Add some margin */}
-                <Label className="text-lg font-semibold mb-2 block">Order Option</Label>
+              <div className="mt-4">
+                {" "}
+                {/* Add some margin */}
+                <Label className="text-lg font-semibold mb-2 block">
+                  Order Option
+                </Label>
                 <RadioGroup
                   defaultValue={orderType}
-                  onValueChange={(value) => setOrderType(value as "delivery" | "pickup")}
+                  onValueChange={(value) =>
+                    setOrderType(value as "delivery" | "pickup")
+                  }
                   className="flex gap-4"
                 >
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="delivery" id="delivery-page" /> {/* Use unique ID */}
+                    <RadioGroupItem value="delivery" id="delivery-page" />{" "}
+                    {/* Use unique ID */}
                     <Label htmlFor="delivery-page">Delivery</Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="pickup" id="pickup-page" /> {/* Use unique ID */}
+                    <RadioGroupItem value="pickup" id="pickup-page" />{" "}
+                    {/* Use unique ID */}
                     <Label htmlFor="pickup-page">Pickup</Label>
                   </div>
                 </RadioGroup>
               </div>
             </CardContent>
+            {restaurantId && <ReviewForm restaurantId={restaurantId} />}
             <CardFooter>
               {/* CheckoutButton now needs orderType passed to it so it can pass it to the form */}
               <CheckoutButton

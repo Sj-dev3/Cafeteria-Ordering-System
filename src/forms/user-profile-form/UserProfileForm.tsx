@@ -16,13 +16,12 @@ import { Button } from "@/components/ui/button";
 import { User } from "@/types";
 import { useEffect } from "react";
 
-// Schema remains the same
 const formSchema = z.object({
   email: z.string().optional(),
-  name: z.string().min(1, "Name is required"),
-  addressLine1: z.string().optional(),
-  city: z.string().optional(),
-  country: z.string().optional(),
+  name: z.string().min(1, "name is required"),
+  addressLine1: z.string().min(1, "Address Line 1 is required"),
+  city: z.string().min(1, "City is required"),
+  country: z.string().min(1, "Country is required"),
 });
 
 export type UserFormData = z.infer<typeof formSchema>;
@@ -53,8 +52,6 @@ const UserProfileForm = ({
     form.reset(currentUser);
   }, [currentUser, form]);
 
-  // Determine if address fields should be shown
-  // Show if orderType is 'delivery' OR if orderType is not provided (i.e., on the profile page)
   const showAddressFields = orderType === "delivery" || orderType === undefined;
 
   return (

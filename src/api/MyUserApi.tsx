@@ -9,21 +9,25 @@ export const useGetMyUser = () => {
   const { getAccessTokenSilently } = useAuth0();
 
   const getMyUserRequest = async (): Promise<User> => {
-    const accessToken = await getAccessTokenSilently();
+    try {
+      const accessToken = await getAccessTokenSilently();
 
-    const response = await fetch(`${API_BASE_URL}/api/my/user`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-    });
+      const response = await fetch(`${API_BASE_URL}/api/my/user`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Failed to fetch user");
+      }
 
-    if (!response.ok) {
+      return response.json();
+    } catch (error) {
+      console.error("Error fetching user:", error);
       throw new Error("Failed to fetch user");
     }
-
-    return response.json();
   };
 
   const {

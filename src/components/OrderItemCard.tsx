@@ -45,7 +45,8 @@ const OrderItemCard = ({ order }: Props) => {
   };
 
   // Determine the total to display (confirmed or calculated)
-  const totalToDisplay = order.totalAmount ?? calculateExpectedOrderTotal(order);
+  const totalToDisplay =
+    order.totalAmount ?? calculateExpectedOrderTotal(order);
 
   return (
     <Card>
@@ -90,11 +91,15 @@ const OrderItemCard = ({ order }: Props) => {
           ))}
         </div>
         <div className="flex flex-col space-y-1.5">
-          <Label htmlFor={`status-${order._id}`}>What is the status of this order?</Label>
+          <Label htmlFor={`status-${order._id}`}>
+            What is the status of this order?
+          </Label>
           <Select
             value={status}
             disabled={isLoading}
-            onValueChange={(value: string) => handleStatusChange(value as OrderStatus)}
+            onValueChange={(value: string) =>
+              handleStatusChange(value as OrderStatus)
+            }
           >
             {/* Add unique id to trigger */}
             <SelectTrigger id={`status-${order._id}`}>

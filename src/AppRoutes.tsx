@@ -8,6 +8,7 @@ import ManageRestaurantPage from "./pages/ManageRestaurantPage";
 import SearchPage from "./pages/SearchPage";
 import DetailPage from "./pages/DetailPage";
 import OrderStatusPage from "./pages/OrderStatusPage";
+import ReportIssuePage from "./pages/ReportIssuePage";
 
 const AppRoutes = () => {
   return (
@@ -37,6 +38,14 @@ const AppRoutes = () => {
           </Layout>
         }
       />
+      <Route
+        path="/report-issue"
+        element={
+          <Layout>
+            <ReportIssuePage />
+          </Layout>
+        }
+      />
       <Route element={<ProtectedRoute />}>
         <Route
           path="/order-status"
@@ -62,8 +71,7 @@ const AppRoutes = () => {
             </Layout>
           }
         />
-      </Route> 
-
+      </Route>
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );

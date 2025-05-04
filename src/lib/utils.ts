@@ -10,7 +10,10 @@ export function cn(...inputs: ClassValue[]) {
 export const calculateExpectedOrderTotal = (order: Order): number | null => {
   // Ensure we have the necessary populated data
   if (!order.restaurant || !order.cartItems || !order.restaurant.menuItems) {
-    console.warn("Cannot calculate total: Missing populated order data for order", order._id);
+    console.warn(
+      "Cannot calculate total: Missing populated order data for order",
+      order._id
+    );
     return null; // Indicate calculation isn't possible
   }
 
@@ -22,7 +25,9 @@ export const calculateExpectedOrderTotal = (order: Order): number | null => {
     );
 
     if (!menuItem) {
-      console.warn(`Menu item ${cartItem.menuItemId} not found in restaurant data for order ${order._id}`);
+      console.warn(
+        `Menu item ${cartItem.menuItemId} not found in restaurant data for order ${order._id}`
+      );
       return sum; // Skip if menu item not found
     }
 
@@ -37,11 +42,12 @@ export const calculateExpectedOrderTotal = (order: Order): number | null => {
 };
 
 // Function to format the price
-export const formatPrice = (priceInPence: number | null | undefined): string => {
-  if (typeof priceInPence !== 'number') {
+export const formatPrice = (
+  priceInPence: number | null | undefined
+): string => {
+  if (typeof priceInPence !== "number") {
     // Return a default value or handle as needed if calculation fails
     return "N/A";
   }
   return `$${(priceInPence / 100).toFixed(2)}`;
 };
-

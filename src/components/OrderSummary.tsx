@@ -12,7 +12,13 @@ type Props = {
   orderType: "delivery" | "pickup"; // Receive orderType
 };
 
-const OrderSummary = ({ restaurant, cartItems, removeFromCart, orderType }: Props) => { // Add orderType to destructuring
+const OrderSummary = ({
+  restaurant,
+  cartItems,
+  removeFromCart,
+  orderType,
+}: Props) => {
+  // Add orderType to destructuring
   const getTotalCost = () => {
     const totalInPence = cartItems.reduce(
       (total, cartItem) => total + cartItem.price * cartItem.quantity,
@@ -20,9 +26,10 @@ const OrderSummary = ({ restaurant, cartItems, removeFromCart, orderType }: Prop
     );
 
     // Only add delivery price if orderType is delivery
-    const totalWithDelivery = orderType === "delivery"
-      ? totalInPence + restaurant.deliveryPrice
-      : totalInPence;
+    const totalWithDelivery =
+      orderType === "delivery"
+        ? totalInPence + restaurant.deliveryPrice
+        : totalInPence;
 
     // Format using USD
     return `$${(totalWithDelivery / 100).toFixed(2)}`;
@@ -39,7 +46,9 @@ const OrderSummary = ({ restaurant, cartItems, removeFromCart, orderType }: Prop
       </CardHeader>
       <CardContent className="flex flex-col gap-5">
         {cartItems.map((item) => (
-          <div className="flex justify-between" key={item._id}> {/* Add key */}
+          <div className="flex justify-between" key={item._id}>
+            {" "}
+            {/* Add key */}
             <span>
               <Badge variant="outline" className="mr-2">
                 {item.quantity}
@@ -53,8 +62,8 @@ const OrderSummary = ({ restaurant, cartItems, removeFromCart, orderType }: Prop
                 size={20}
                 onClick={() => removeFromCart(item)}
               />
-              {/* Format using USD */}
-              ${((item.price * item.quantity) / 100).toFixed(2)}
+              {/* Format using USD */}$
+              {((item.price * item.quantity) / 100).toFixed(2)}
             </span>
           </div>
         ))}

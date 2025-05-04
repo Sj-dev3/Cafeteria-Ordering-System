@@ -11,7 +11,6 @@ import { useGetMyUser } from "@/api/MyUserApi";
 // import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 // import { Label } from "@/components/ui/label";
 
-
 type Props = {
   onCheckout: (userFormData: UserFormData) => void;
   disabled: boolean;
@@ -22,7 +21,12 @@ type Props = {
 };
 
 // Remove setOrderType from destructuring
-const CheckoutButton = ({ onCheckout, disabled, isLoading, orderType }: Props) => {
+const CheckoutButton = ({
+  onCheckout,
+  disabled,
+  isLoading,
+  orderType,
+}: Props) => {
   const {
     isAuthenticated,
     isLoading: isAuthLoading,
@@ -59,12 +63,16 @@ const CheckoutButton = ({ onCheckout, disabled, isLoading, orderType }: Props) =
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-[425px] md:min-w-[700px] bg-gray-50">
-         {/* Remove Radio Group UI from here */}
+        {/* Remove Radio Group UI from here */}
         <UserProfileForm
           currentUser={currentUser}
           onSave={onCheckout}
           isLoading={isGetUserLoading} // Pass the correct loading state
-          title={orderType === 'delivery' ? "Confirm Delivery Details" : "Confirm Pickup Details"} // Dynamic title
+          title={
+            orderType === "delivery"
+              ? "Confirm Delivery Details"
+              : "Confirm Pickup Details"
+          } // Dynamic title
           buttonText="Continue to payment"
           // Pass orderType to conditionally render fields in the form
           orderType={orderType}
