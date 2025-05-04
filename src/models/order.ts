@@ -6,8 +6,9 @@ const orderSchema = new mongoose.Schema({
   deliveryDetails: {
     email: { type: String, required: true },
     name: { type: String, required: true },
-    addressLine1: { type: String, required: true },
-    city: { type: String, required: true },
+    // Make address optional if pickup is chosen later
+    addressLine1: { type: String },
+    city: { type: String },
   },
   cartItems: [
     {
@@ -16,12 +17,32 @@ const orderSchema = new mongoose.Schema({
       name: { type: String, required: true },
     },
   ],
+  // Add orderType field
+  orderType: {
+    type: String,
+    enum: ["delivery", "pickup"],
+    required: true,
+  },
   totalAmount: Number,
   status: {
     type: String,
     enum: ["placed", "paid", "inProgress", "outForDelivery", "delivered"],
   },
   createdAt: { type: Date, default: Date.now },
+});
+
+// Add validation based on orderType if needed (e.g., require address for delivery)
+orderSchema.pre('save', function(next) {
+  if (this.orderType === 'delivery' && (!this.deliveryDetails?.addressLine1 || !this.deliveryDetails?.city)) {
+    next(new Error('Address and city are required for delivery orders.'));
+  } else {
+    // Clear address fields if pickup is selected (optional)
+    // if (this.orderType === 'pickup') {
+    //   this.deliveryDetails.addressLine1 = undefined;
+    //   this.deliveryDetails.city = undefined;
+    // }
+    next();
+  }
 });
 
 const Order = mongoose.model("Order", orderSchema);

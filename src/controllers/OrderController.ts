@@ -29,10 +29,11 @@ type CheckoutSessionRequest = {
   deliveryDetails: {
     email: string;
     name: string;
-    addressLine1: string;
-    city: string;
+    addressLine1?: string; // Make optional
+    city?: string;         // Make optional
   };
   restaurantId: string;
+  orderType: "delivery" | "pickup"; // Add orderType
 };
 
 const stripeWebhookHandler = async (req: Request, res: Response) => {
@@ -48,7 +49,7 @@ const stripeWebhookHandler = async (req: Request, res: Response) => {
   } catch (error: any) {
     console.log(error);
     res.status(400).send(`Webhook error: ${error.message}`);
-    return;
+    return
   }
 
   if (event.type === "checkout.session.completed") {
@@ -56,7 +57,7 @@ const stripeWebhookHandler = async (req: Request, res: Response) => {
 
     if (!order) {
       res.status(404).json({ message: "Order not found" });
-      return;
+      return
     }
 
     order.totalAmount = event.data.object.amount_total;
@@ -86,6 +87,7 @@ const createCheckoutSession = async (req: Request, res: Response) => {
       status: "placed",
       deliveryDetails: checkoutSessionRequest.deliveryDetails,
       cartItems: checkoutSessionRequest.cartItems,
+      orderType: checkoutSessionRequest.orderType, // Save orderType
       createdAt: new Date(),
     });
 
@@ -94,30 +96,37 @@ const createCheckoutSession = async (req: Request, res: Response) => {
       restaurant.menuItems
     );
 
+    // Pass orderType to createSession
     const session = await createSession(
       lineItems,
       newOrder._id.toString(),
-      restaurant.deliveryPrice,
-      restaurant._id.toString()
+      checkoutSessionRequest.orderType === "delivery" ? restaurant.deliveryPrice : 0, // Pass 0 if pickup
+      restaurant._id.toString(),
+      checkoutSessionRequest.orderType // Pass orderType
     );
 
     if (!session.url) {
       res.status(500).json({ message: "Error creating stripe session" });
-      return;
+      return
     }
 
     await newOrder.save();
     res.json({ url: session.url });
   } catch (error: any) {
     console.log(error);
-    res.status(500).json({ message: error.raw.message });
+    // Check for validation errors specifically
+    if (error.message.includes('Address and city are required')) {
+       res.status(400).json({ message: error.message });
+    } else {
+       res.status(500).json({ message: error.raw?.message || error.message || "An unknown error occurred" });
+    }
   }
 };
 
 const createLineItems = (
   checkoutSessionRequest: CheckoutSessionRequest,
   menuItems: MenuItemType[]
-) => {
+): Stripe.Checkout.SessionCreateParams.LineItem[] => {
   const lineItems = checkoutSessionRequest.cartItems.map((cartItem) => {
     const menuItem = menuItems.find(
       (item) => item._id.toString() === cartItem.menuItemId.toString()
@@ -129,7 +138,7 @@ const createLineItems = (
 
     const line_item: Stripe.Checkout.SessionCreateParams.LineItem = {
       price_data: {
-        currency: "gbp",
+        currency: "usd", // Changed to USD
         unit_amount: menuItem.price,
         product_data: {
           name: menuItem.name,
@@ -147,27 +156,34 @@ const createLineItems = (
 const createSession = async (
   lineItems: Stripe.Checkout.SessionCreateParams.LineItem[],
   orderId: string,
-  deliveryPrice: number,
-  restaurantId: string
+  deliveryPrice: number, // Price is now conditional (0 for pickup)
+  restaurantId: string,
+  orderType: "delivery" | "pickup" // Receive orderType
 ) => {
-  const sessionData = await STRIPE.checkout.sessions.create({
-    line_items: lineItems,
-    shipping_options: [
-      {
-        shipping_rate_data: {
-          display_name: "Delivery",
-          type: "fixed_amount",
-          fixed_amount: {
-            amount: deliveryPrice,
-            currency: "gbp",
-          },
+
+  // Conditionally add shipping options only for delivery
+  const shippingOptions = orderType === "delivery" && deliveryPrice > 0 ? [
+    {
+      shipping_rate_data: {
+        display_name: "Delivery",
+        type: "fixed_amount" as const,
+        fixed_amount: {
+          amount: deliveryPrice, // Use the passed deliveryPrice
+          currency: "usd", // Ensure currency matches line items
         },
       },
-    ],
+    },
+  ] : undefined; // Set to undefined if pickup or deliveryPrice is 0
+
+
+  const sessionData = await STRIPE.checkout.sessions.create({
+    line_items: lineItems,
+    shipping_options: shippingOptions, // Use the conditional options
     mode: "payment",
     metadata: {
       orderId,
       restaurantId,
+      orderType, // Optionally store orderType in metadata too
     },
     success_url: `${FRONTEND_URL}/order-status?success=true`,
     cancel_url: `${FRONTEND_URL}/detail/${restaurantId}?cancelled=true`,
