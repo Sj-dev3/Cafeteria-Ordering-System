@@ -42,10 +42,11 @@ type CheckoutSessionRequest = {
   deliveryDetails: {
     email: string;
     name: string;
-    addressLine1: string;
-    city: string;
+    addressLine1?: string;
+    city?: string;
   };
   restaurantId: string;
+  orderType: "delivery" | "pickup";
 };
 
 export const useCreateCheckoutSession = () => {
@@ -92,5 +93,7 @@ export const useCreateCheckoutSession = () => {
   return {
     createCheckoutSession,
     isLoading,
+    error,
+    reset,
   };
 };

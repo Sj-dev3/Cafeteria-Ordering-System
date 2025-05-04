@@ -7,22 +7,32 @@ import UserProfileForm, {
   UserFormData,
 } from "@/forms/user-profile-form/UserProfileForm";
 import { useGetMyUser } from "@/api/MyUserApi";
+// Remove RadioGroup and Label imports if no longer used elsewhere here
+// import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+// import { Label } from "@/components/ui/label";
 
 type Props = {
   onCheckout: (userFormData: UserFormData) => void;
   disabled: boolean;
   isLoading: boolean;
+  orderType: "delivery" | "pickup"; // Keep orderType to pass down
+  // Remove setOrderType prop
+  // setOrderType: (type: "delivery" | "pickup") => void;
 };
 
-const CheckoutButton = ({ onCheckout, disabled, isLoading }: Props) => {
+// Remove setOrderType from destructuring
+const CheckoutButton = ({
+  onCheckout,
+  disabled,
+  isLoading,
+  orderType,
+}: Props) => {
   const {
     isAuthenticated,
     isLoading: isAuthLoading,
     loginWithRedirect,
   } = useAuth0();
-
   const { pathname } = useLocation();
-
   const { currentUser, isLoading: isGetUserLoading } = useGetMyUser();
 
   const onLogin = async () => {
@@ -49,16 +59,23 @@ const CheckoutButton = ({ onCheckout, disabled, isLoading }: Props) => {
     <Dialog>
       <DialogTrigger asChild>
         <Button disabled={disabled} className="bg-orange-500 flex-1">
-          Go to checkout 
+          Go to checkout
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-[425px] md:min-w-[700px] bg-gray-50">
+        {/* Remove Radio Group UI from here */}
         <UserProfileForm
           currentUser={currentUser}
           onSave={onCheckout}
-          isLoading={isGetUserLoading}
-          title="Confirm Deliery Details"
+          isLoading={isGetUserLoading} // Pass the correct loading state
+          title={
+            orderType === "delivery"
+              ? "Confirm Delivery Details"
+              : "Confirm Pickup Details"
+          } // Dynamic title
           buttonText="Continue to payment"
+          // Pass orderType to conditionally render fields in the form
+          orderType={orderType}
         />
       </DialogContent>
     </Dialog>

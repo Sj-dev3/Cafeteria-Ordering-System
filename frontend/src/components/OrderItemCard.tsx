@@ -13,6 +13,8 @@ import {
 import { ORDER_STATUS } from "@/config/order-status-config";
 import { useUpdateMyRestaurantOrder } from "@/api/MyRestaurantApi";
 import { useEffect, useState } from "react";
+// Import the helper functions
+import { calculateExpectedOrderTotal, formatPrice } from "@/lib/utils";
 
 type Props = {
   order: Order;
@@ -36,14 +38,15 @@ const OrderItemCard = ({ order }: Props) => {
 
   const getTime = () => {
     const orderDateTime = new Date(order.createdAt);
-
     const hours = orderDateTime.getHours();
     const minutes = orderDateTime.getMinutes();
-
     const paddedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-
     return `${hours}:${paddedMinutes}`;
   };
+
+  // Determine the total to display (confirmed or calculated)
+  const totalToDisplay =
+    order.totalAmount ?? calculateExpectedOrderTotal(order);
 
   return (
     <Card>
@@ -68,9 +71,8 @@ const OrderItemCard = ({ order }: Props) => {
           <div>
             Total Cost:
             <span className="ml-2 font-normal">
-              {typeof order.totalAmount === 'number'
-                ? `$${(order.totalAmount / 100).toFixed(2)}`
-                : "Pending"}
+              {/* Format the determined total */}
+              {formatPrice(totalToDisplay)}
             </span>
           </div>
         </CardTitle>
@@ -79,7 +81,8 @@ const OrderItemCard = ({ order }: Props) => {
       <CardContent className="flex flex-col gap-6">
         <div className="flex flex-col gap-2">
           {order.cartItems.map((cartItem) => (
-            <span>
+            // Add a unique key prop
+            <span key={cartItem.menuItemId}>
               <Badge variant="outline" className="mr-2">
                 {cartItem.quantity}
               </Badge>
@@ -88,18 +91,26 @@ const OrderItemCard = ({ order }: Props) => {
           ))}
         </div>
         <div className="flex flex-col space-y-1.5">
-          <Label htmlFor="status">What is the status of this order?</Label>
+          <Label htmlFor={`status-${order._id}`}>
+            What is the status of this order?
+          </Label>
           <Select
             value={status}
             disabled={isLoading}
-            onValueChange={(value: string) => handleStatusChange(value as OrderStatus)}
+            onValueChange={(value: string) =>
+              handleStatusChange(value as OrderStatus)
+            }
           >
-            <SelectTrigger id="status">
+            {/* Add unique id to trigger */}
+            <SelectTrigger id={`status-${order._id}`}>
               <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent position="popper">
-              {ORDER_STATUS.map((status) => (
-                <SelectItem value={status.value}>{status.label}</SelectItem>
+              {ORDER_STATUS.map((statusOption) => (
+                // Add unique key prop
+                <SelectItem key={statusOption.value} value={statusOption.value}>
+                  {statusOption.label}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>

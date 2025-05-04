@@ -32,6 +32,7 @@ type Props = {
   isLoading: boolean;
   title?: string;
   buttonText?: string;
+  orderType?: "delivery" | "pickup";
 };
 
 const UserProfileForm = ({
@@ -40,6 +41,7 @@ const UserProfileForm = ({
   currentUser,
   title = "User Profile",
   buttonText = "Submit",
+  orderType,
 }: Props) => {
   const form = useForm<UserFormData>({
     resolver: zodResolver(formSchema),
@@ -49,6 +51,8 @@ const UserProfileForm = ({
   useEffect(() => {
     form.reset(currentUser);
   }, [currentUser, form]);
+
+  const showAddressFields = orderType === "delivery" || orderType === undefined;
 
   return (
     <Form {...form}>
@@ -62,6 +66,7 @@ const UserProfileForm = ({
             View and change your profile information here
           </FormDescription>
         </div>
+        {/* Email and Name fields remain the same */}
         <FormField
           control={form.control}
           name="email"
@@ -74,7 +79,6 @@ const UserProfileForm = ({
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
           name="name"
@@ -89,47 +93,52 @@ const UserProfileForm = ({
           )}
         />
 
-        <div className="flex flex-col md:flex-row gap-4">
-          <FormField
-            control={form.control}
-            name="addressLine1"
-            render={({ field }) => (
-              <FormItem className="flex-1">
-                <FormLabel>Address Line 1</FormLabel>
-                <FormControl>
-                  <Input {...field} className="bg-white" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="city"
-            render={({ field }) => (
-              <FormItem className="flex-1">
-                <FormLabel>City</FormLabel>
-                <FormControl>
-                  <Input {...field} className="bg-white" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="country"
-            render={({ field }) => (
-              <FormItem className="flex-1">
-                <FormLabel>Country</FormLabel>
-                <FormControl>
-                  <Input {...field} className="bg-white" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
+        {/* Conditionally render Address Fields based on the updated logic */}
+        {showAddressFields && (
+          <div className="flex flex-col md:flex-row gap-4">
+            <FormField
+              control={form.control}
+              name="addressLine1"
+              render={({ field }) => (
+                <FormItem className="flex-1">
+                  <FormLabel>Address Line 1</FormLabel>
+                  <FormControl>
+                    <Input {...field} className="bg-white" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="city"
+              render={({ field }) => (
+                <FormItem className="flex-1">
+                  <FormLabel>City</FormLabel>
+                  <FormControl>
+                    <Input {...field} className="bg-white" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="country"
+              render={({ field }) => (
+                <FormItem className="flex-1">
+                  <FormLabel>Country</FormLabel>
+                  <FormControl>
+                    <Input {...field} className="bg-white" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        )}
+
+        {/* Submit button remains the same */}
         {isLoading ? (
           <LoadingButton />
         ) : (
