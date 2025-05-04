@@ -24,6 +24,10 @@ export type Restaurant = {
   _id: string;
   user: string;
   restaurantName: string;
+  reviewSummary?: {
+    averageRating: number | null;
+    totalReviews: number;
+  };
   city: string;
   reviews: Review[];
   country: string;
