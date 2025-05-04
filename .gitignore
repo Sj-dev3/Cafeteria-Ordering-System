@@ -1,6 +1,14 @@
+# filepath: c:\Users\asisd\Desktop\362Project\backend\.gitignore
+# Environment variables
 .env
 
-# Logs
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Logs & Editor Files (Optional but recommended)
 logs
 *.log
 npm-debug.log*
@@ -8,13 +16,6 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
 .vscode/*
 !.vscode/extensions.json
 .idea
