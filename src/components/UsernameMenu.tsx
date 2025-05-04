@@ -6,8 +6,9 @@ import { CircleUserRound } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button"; // Keep this as it's already correct
 
-export default function UsernameMenu() {
-    const { user, logout } = useAuth0()
+const UsernameMenu = () => {
+    const { user, logout } = useAuth0();
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center px-3 font-bold hover:text-orange-500 gap-2 outline-none"> {/* Added outline-none for better focus state */}
@@ -26,6 +27,12 @@ export default function UsernameMenu() {
                         User Profile
                     </Link>
                 </DropdownMenuItem>
+                {/* Add the new Order Status link here */}
+                <DropdownMenuItem>
+                    <Link to = "/order-status" className="font-bold hover:text-orange-500">
+                        Order Status
+                    </Link>
+                </DropdownMenuItem>
                 {/* Separator now uses the styled version from ./ui */}
                 <Separator/>
                 <DropdownMenuItem>
@@ -40,4 +47,6 @@ export default function UsernameMenu() {
             </DropdownMenuContent>
         </DropdownMenu>
     )
-}
+};
+
+export default UsernameMenu;
