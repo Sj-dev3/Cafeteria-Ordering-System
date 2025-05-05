@@ -49,7 +49,7 @@ const OrderItemCard = ({ order }: Props) => {
     order.totalAmount ?? calculateExpectedOrderTotal(order);
 
   return (
-    <Card className="dark:bg-zinc-950">
+    <Card className="dark:bg-zinc-950 border-3">
       <CardHeader>
         <CardTitle className="grid md:grid-cols-4 gap-4 justify-between mb-3 dark:">
           <div>

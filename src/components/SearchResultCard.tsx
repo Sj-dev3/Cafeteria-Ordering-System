@@ -10,7 +10,7 @@ type Props = {
 
 const SearchResultCard = ({ restaurant }: Props) => {
   return (
-    <Card className="dark:bg-zinc-950">
+    <Card className="dark:bg-zinc-950 border-3">
       <Link
         to={`/detail/${restaurant._id}`}
         className="grid lg:grid-cols-[2fr_3fr] gap-5 group"
