@@ -9,7 +9,8 @@ type Props = {
 
 const OrderStatusDetail = ({ order }: Props) => {
   // Use confirmed totalAmount if available, otherwise calculate the expected total
-  const totalToDisplay = order.totalAmount ?? calculateExpectedOrderTotal(order);
+  const totalToDisplay =
+    order.totalAmount ?? calculateExpectedOrderTotal(order);
 
   return (
     <div className="space-y-5">
@@ -31,7 +32,7 @@ const OrderStatusDetail = ({ order }: Props) => {
           ))}
         </ul>
       </div>
-      <Separator />
+      <Separator className="dark:bg-gray-50" />
       <div className="flex flex-col">
         <span className="font-bold">Total</span>
         {/* Format the determined total (confirmed or calculated) */}

@@ -49,7 +49,7 @@ const ReportIssuePage = () => {
 
       <TabsContent
         value="form"
-        className="space-y-5 bg-gray-50 p-10 rounded-lg max-w-xl mx-auto"
+        className="space-y-5 bg-gray-50 dark:bg-zinc-950 p-10 rounded-lg max-w-xl mx-auto"
       >
         <h2 className="text-2xl font-bold">Something not working?</h2>
         <form className="space-y-4" onSubmit={handleSubmit}>
@@ -58,6 +58,7 @@ const ReportIssuePage = () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
+            className="dark:bg-zinc-950"
           />
           <Input
             placeholder="Your email"
@@ -65,6 +66,7 @@ const ReportIssuePage = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            className="dark:bg-zinc-950"
           />
           <Textarea
             placeholder="Describe the issue you're facing"
@@ -72,8 +74,12 @@ const ReportIssuePage = () => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required
+            className="dark:bg-zinc-950"
           />
-          <Button type="submit" className="w-full">
+          <Button
+            type="submit"
+            className="w-full mt-2.5 dark:hover:bg-zinc-900 dark:hover:text-white cursor-pointer"
+          >
             Submit Issue
           </Button>
         </form>
@@ -81,10 +87,10 @@ const ReportIssuePage = () => {
 
       <TabsContent
         value="faq"
-        className="bg-gray-50 p-10 rounded-lg max-w-xl mx-auto"
+        className="bg-gray-50 dark:bg-zinc-950 p-10 rounded-lg max-w-xl mx-auto"
       >
         <h2 className="text-2xl font-bold mb-4">Frequently Asked Questions</h2>
-        <ul className="list-disc ml-5 space-y-2 text-sm text-gray-700">
+        <ul className="list-disc ml-5 space-y-2 text-sm text-gray-700 dark:text-white">
           <li>Make sure your internet connection is active.</li>
           <li>Try refreshing the page or logging out and back in.</li>
           <li>If the problem persists, use the form to contact support.</li>

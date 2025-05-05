@@ -89,7 +89,7 @@ const ManageRestaurantForm = ({ onSave, isLoading, restaurant }: Props) => {
     form.reset(updatedRestaurant);
   }, [form, restaurant]);
 
-const onSubmit = (formDataJson: RestaurantFormData) => {
+  const onSubmit = (formDataJson: RestaurantFormData) => {
     const formData = new FormData();
 
     formData.append("restaurantName", formDataJson.restaurantName);
@@ -126,14 +126,14 @@ const onSubmit = (formDataJson: RestaurantFormData) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 bg-gray-50 p-10 rounded-lg"
+        className="space-y-8 bg-gray-50 dark:bg-zinc-950 p-10 rounded-lg"
       >
         <DetailsSection />
-        <Separator />
+        <Separator className="dark:bg-gray-50" />
         <CuisinesSection />
-        <Separator />
+        <Separator className="dark:bg-gray-50" />
         <MenuSection />
-        <Separator />
+        <Separator className="dark:bg-gray-50" />
         <ImageSection />
         {isLoading ? <LoadingButton /> : <Button type="submit">Submit</Button>}
       </form>

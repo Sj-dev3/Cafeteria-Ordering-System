@@ -55,99 +55,106 @@ const UserProfileForm = ({
   const showAddressFields = orderType === "delivery" || orderType === undefined;
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSave)}
-        className="space-y-4 bg-gray-50 rounded-lg md:p-10"
-      >
-        <div>
-          <h2 className="text-2xl font-bold">{title}</h2>
-          <FormDescription>
-            View and change your profile information here
-          </FormDescription>
-        </div>
-        {/* Email and Name fields remain the same */}
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input {...field} disabled className="bg-white" />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input {...field} className="bg-white" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/* Conditionally render Address Fields based on the updated logic */}
-        {showAddressFields && (
-          <div className="flex flex-col md:flex-row gap-4">
-            <FormField
-              control={form.control}
-              name="addressLine1"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel>Address Line 1</FormLabel>
-                  <FormControl>
-                    <Input {...field} className="bg-white" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="city"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel>City</FormLabel>
-                  <FormControl>
-                    <Input {...field} className="bg-white" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="country"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel>Country</FormLabel>
-                  <FormControl>
-                    <Input {...field} className="bg-white" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+    <div className="px-4 sm:px-6 md:px-8 max-w-2xl mx-auto w-full">
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSave)}
+          className="space-y-4 bg-gray-50 dark:bg-zinc-950 rounded-lg md:p-10"
+        >
+          <div>
+            <h2 className="text-2xl font-bold">{title}</h2>
+            <FormDescription>
+              View and change your profile information here
+            </FormDescription>
           </div>
-        )}
+          {/* Email and Name fields remain the same */}
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input {...field} disabled className="bg-white" />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input {...field} className="bg-white" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        {/* Submit button remains the same */}
-        {isLoading ? (
-          <LoadingButton />
-        ) : (
-          <Button type="submit" className="bg-orange-500">
-            {buttonText}
-          </Button>
-        )}
-      </form>
-    </Form>
+          {/* Conditionally render Address Fields based on the updated logic */}
+          {showAddressFields && (
+            <div className="flex flex-col md:flex-row gap-4">
+              <FormField
+                control={form.control}
+                name="addressLine1"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Address Line 1</FormLabel>
+                    <FormControl>
+                      <Input {...field} className="bg-white" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="city"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>City</FormLabel>
+                    <FormControl>
+                      <Input {...field} className="bg-white" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="country"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Country</FormLabel>
+                    <FormControl>
+                      <Input {...field} className="bg-white" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          )}
+
+          {/* Submit button remains the same */}
+          <div className="flex items-center justify-center pt-10">
+            {isLoading ? (
+              <LoadingButton />
+            ) : (
+              <Button
+                type="submit"
+                className="bg-zinc-950 dark:bg-white dark:hover:bg-zinc-900 dark:hover:text-white cursor-pointer"
+              >
+                {buttonText}
+              </Button>
+            )}
+          </div>
+        </form>
+      </Form>
+    </div>
   );
 };
 

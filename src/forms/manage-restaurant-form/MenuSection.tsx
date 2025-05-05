@@ -23,7 +23,7 @@ const MenuSection = () => {
         control={control}
         name="menuItems"
         render={() => (
-          <FormItem className="flex flex-col gap-2">
+          <FormItem className="flex flex-col gap-2 mb-5">
             {fields.map((_, index) => (
               <MenuItemInput
                 index={index}

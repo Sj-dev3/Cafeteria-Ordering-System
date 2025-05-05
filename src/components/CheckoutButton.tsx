@@ -58,7 +58,10 @@ const CheckoutButton = ({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button disabled={disabled} className="bg-orange-500 flex-1">
+        <Button
+          disabled={disabled}
+          className="bg-zinc-950 hover:bg-zinc-300 hover:text-zinc-950 dark:bg-gray-50 dark:hover:bg-zinc-900 dark:hover:text-gray-50 flex-1 cursor-pointer"
+        >
           Go to checkout
         </Button>
       </DialogTrigger>
