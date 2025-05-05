@@ -181,15 +181,18 @@ const DetailPage = () => {
                 </RadioGroup>
               </div>
             </CardContent>
-            {restaurantId && <ReviewForm restaurantId={restaurantId} />}
+    
             <CardFooter>
               {/* CheckoutButton now needs orderType passed to it so it can pass it to the form */}
-              <CheckoutButton
-                disabled={cartItems.length === 0}
-                onCheckout={onCheckout}
-                isLoading={isCheckoutLoading}
-                orderType={orderType} // Pass orderType down
-              />
+              <div className="flex flex-col gap-4 w-full">
+                {restaurantId && <ReviewForm restaurantId={restaurantId} />}
+                <CheckoutButton
+                  disabled={cartItems.length === 0}
+                  onCheckout={onCheckout}
+                  isLoading={isCheckoutLoading}
+                  orderType={orderType} // Pass orderType down
+                />
+              </div>
             </CardFooter>
           </Card>
         </div>
