@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button } from "./ui/button";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Input } from "./ui/input";
+import { toast } from "sonner";
 import {
   Dialog,
   DialogTrigger,
@@ -37,6 +38,8 @@ export default function ReviewForm({ restaurantId }: Props) {
       body: JSON.stringify({ rating, comment }),
     });
 
+    toast.success("Review submitted successfully");
+
     setRating(1);
     setComment("");
     setOpen(false);
@@ -48,14 +51,16 @@ export default function ReviewForm({ restaurantId }: Props) {
         <Button>Write a Review</Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-xl h-[90vh] overflow-y-auto shadow-none border border-gray-300 bg-white">
+      <DialogContent className="sm:max-w-xl h-[90vh] overflow-y-auto shadow-none border border-gray-300 bg-white dark:bg-zinc-950">
         <DialogHeader>
-          <DialogTitle className="text-2xl">Leave a Review</DialogTitle>
+          <DialogTitle className="text-2xl mt-10 flex items-center justify-center">
+            Leave a Review
+          </DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y- mt-4">
+        <form onSubmit={handleSubmit} className="space-y-[3rem] mt-4">
           <div>
-            <Label>Rating (1-5)</Label>
+            <Label className="mb-3">Rating (1-5)</Label>
             <select
               value={rating}
               onChange={(e) => setRating(Number(e.target.value))}
@@ -70,11 +75,12 @@ export default function ReviewForm({ restaurantId }: Props) {
           </div>
 
           <div>
-            <Label>Comment (optional)</Label>
+            <Label className="mb-3">Comment (optional)</Label>
             <Input
               placeholder="Your comment"
               value={comment}
               onChange={(e) => setComment(e.target.value)}
+              className="dark:bg-zinc-950"
             />
           </div>
 
