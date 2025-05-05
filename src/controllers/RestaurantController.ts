@@ -8,7 +8,7 @@ const getRestaurant = async (req: Request, res: Response) => {
     const restaurant = await Restaurant.findById(restaurantId);
     if (!restaurant) {
       res.status(404).json({ message: "restaurant not found" });
-      return
+      return;
     }
 
     res.json(restaurant);
@@ -40,7 +40,7 @@ const searchRestaurant = async (req: Request, res: Response) => {
           pages: 1,
         },
       });
-      return 
+      return;
     }
 
     if (selectedCuisines) {
@@ -66,13 +66,29 @@ const searchRestaurant = async (req: Request, res: Response) => {
     const restaurants = await Restaurant.find(query)
       .sort({ [sortOption]: 1 })
       .skip(skip)
-      .limit(pageSize)
-      .lean();
+      .limit(pageSize);
 
     const total = await Restaurant.countDocuments(query);
 
+    const restaurantWithRatings = restaurants.map((restaurants) => {
+      const reviews = restaurants.reviews || [];
+      const totalReviews = reviews.length;
+      const averageRating =
+        totalReviews > 0
+          ? reviews.reduce((sum, r) => sum + r.rating, 0) / totalReviews
+          : null;
+
+      return {
+        ...restaurants.toObject(),
+        reviewSummary: {
+          averageRating,
+          totalReviews,
+        },
+      };
+    });
+
     const response = {
-      data: restaurants,
+      data: restaurantWithRatings,
       pagination: {
         total,
         page,

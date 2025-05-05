@@ -1,8 +1,12 @@
 import express from "express";
 import { param } from "express-validator";
 import RestaurantController from "../controllers/RestaurantController";
+import { addReview } from "../controllers/restaurantReview";
+import { jwtCheck, jwtParse } from "../middleware/auth";
 
 const router = express.Router();
+
+router.post("/:restaurantId/reviews", jwtCheck, jwtParse, addReview);
 
 router.get(
   "/:restaurantId",
