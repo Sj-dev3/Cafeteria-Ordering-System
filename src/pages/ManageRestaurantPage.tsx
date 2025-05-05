@@ -21,7 +21,7 @@ const ManageRestaurantPage = () => {
 
   return (
     <Tabs defaultValue="orders">
-      <TabsList>
+      <TabsList className="mb-1.5 dark:bg-zinc-900">
         <TabsTrigger value="orders">Orders</TabsTrigger>
         <TabsTrigger value="manage-restaurant">Manage Restaurant</TabsTrigger>
       </TabsList>

@@ -55,7 +55,7 @@ const UserProfileForm = ({
   const showAddressFields = orderType === "delivery" || orderType === undefined;
 
   return (
-    <div className="px-4 sm:px-6 md:px-8 max-w-2xl mx-auto w-full">
+    <div className="px-4 sm:px-6 md:px-8 max-w-2xl mx-auto w-full border-3 rounded-lg">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSave)}
