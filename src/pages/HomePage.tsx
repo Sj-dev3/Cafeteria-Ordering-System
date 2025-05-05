@@ -33,7 +33,7 @@ const HomePage = () => {
             Order takeaway even faster!
           </span>
           <span className="dark:text-zinc-300 text-zinc-900">
-            Download the MernEats App for faster ordering and personalised
+            Use our Cafeteria site for a wonderful ordering experience.
             recommendations
           </span>
           {/* <img src={appDownloadImage} /> */}
