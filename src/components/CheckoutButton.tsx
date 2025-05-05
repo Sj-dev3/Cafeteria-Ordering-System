@@ -68,7 +68,7 @@ const CheckoutButton = ({
           Go to checkout
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-[425px] md:min-w-[700px] bg-gray-50">
+      <DialogContent className="max-w-[425px] md:min-w-[700px] bg-gray-50 dark:bg-zinc-950">
         {/* Remove Radio Group UI from here */}
         <UserProfileForm
           currentUser={currentUser}
