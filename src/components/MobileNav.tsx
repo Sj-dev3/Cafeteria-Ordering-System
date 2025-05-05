@@ -31,7 +31,7 @@ export default function MobileNav() {
               {user?.email}
             </span>
           ) : (
-            <span className="flex justify-center font-bold pt-[4.25rem]">
+            <span className="flex justify-center font-bold pt-[4.25rem] pb-[3rem]">
               {" "}
               Welcome to Cafeteria.com
             </span>
@@ -44,7 +44,7 @@ export default function MobileNav() {
           ) : (
             <Button
               onClick={() => loginWithRedirect()}
-              className="flex-1 font-bold bg-zinc-950 w-[85%]"
+              className="flex-1 font-bold bg-zinc-950 w-[85%] dark:bg-white"
             >
               Log In
             </Button>

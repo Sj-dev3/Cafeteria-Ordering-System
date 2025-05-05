@@ -53,7 +53,7 @@ export default function ReviewForm({ restaurantId }: Props) {
           <DialogTitle className="text-2xl">Leave a Review</DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+        <form onSubmit={handleSubmit} className="space-y- mt-4">
           <div>
             <Label>Rating (1-5)</Label>
             <select
