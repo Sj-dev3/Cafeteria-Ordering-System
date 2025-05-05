@@ -34,7 +34,6 @@ const HomePage = () => {
           </span>
           <span className="dark:text-zinc-300 text-zinc-900">
             Use our Cafeteria site for a wonderful ordering experience.
-            recommendations
           </span>
           {/* <img src={appDownloadImage} /> */}
         </div>
